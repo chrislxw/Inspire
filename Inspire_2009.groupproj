@@ -1,0 +1,50 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{960a68af-2e20-4e87-8fc6-1e7a71b08fa6}</ProjectGuid>
+		</PropertyGroup>
+		<ItemGroup>
+			<Projects Include="dpr\ESPWriter.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="dpr\Inspire.dproj">
+				<Dependencies/>
+			</Projects>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Default.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<BorlandProject>
+					<Default.Personality/>
+				</BorlandProject>
+			</BorlandProject>
+		</ProjectExtensions>
+		<Target Name="ESPWriter">
+			<MSBuild Projects="dpr\ESPWriter.dproj"/>
+		</Target>
+		<Target Name="ESPWriter:Clean">
+			<MSBuild Targets="Clean" Projects="dpr\ESPWriter.dproj"/>
+		</Target>
+		<Target Name="ESPWriter:Make">
+			<MSBuild Targets="Make" Projects="dpr\ESPWriter.dproj"/>
+		</Target>
+		<Target Name="Inspire">
+			<MSBuild Projects="dpr\Inspire.dproj"/>
+		</Target>
+		<Target Name="Inspire:Clean">
+			<MSBuild Targets="Clean" Projects="dpr\Inspire.dproj"/>
+		</Target>
+		<Target Name="Inspire:Make">
+			<MSBuild Targets="Make" Projects="dpr\Inspire.dproj"/>
+		</Target>
+		<Target Name="Build">
+			<CallTarget Targets="ESPWriter;Inspire"/>
+		</Target>
+		<Target Name="Clean">
+			<CallTarget Targets="ESPWriter:Clean;Inspire:Clean"/>
+		</Target>
+		<Target Name="Make">
+			<CallTarget Targets="ESPWriter:Make;Inspire:Make"/>
+		</Target>
+		<Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+	</Project>

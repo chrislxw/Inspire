@@ -1,0 +1,157 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{7ed1afe1-de09-4ca0-88a5-a7c6dcc6c06b}</ProjectGuid>
+			<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+			<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+			<DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
+			<DCC_DependencyCheckOutputName>..\bin\Inspire.exe</DCC_DependencyCheckOutputName>
+			<MainSource>Inspire.dpr</MainSource>
+			<ProjectVersion>12.0</ProjectVersion>
+			<Config Condition="'$(Config)'==''">Debug</Config>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_1)'!=''">
+			<Cfg_1>true</Cfg_1>
+			<CfgParent>Base</CfgParent>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_2)'!=''">
+			<Cfg_2>true</Cfg_2>
+			<CfgParent>Base</CfgParent>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Base)'!=''">
+			<DCC_DependencyCheckOutputName>..\bin\Inspire.exe</DCC_DependencyCheckOutputName>
+			<DCC_ExeOutput>..\bin</DCC_ExeOutput>
+			<DCC_BplOutput>..\bin</DCC_BplOutput>
+			<DCC_DcpOutput>..\lib</DCC_DcpOutput>
+			<DCC_DcuOutput>..\lib</DCC_DcuOutput>
+			<DCC_UsePackage>vcl;rtl;cirtl;cidbrtl;ciuirtl;ciuiextrtl;devxrtl</DCC_UsePackage>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_1)'!=''">
+			<Version>7.0</Version>
+			<DCC_DebugInformation>False</DCC_DebugInformation>
+			<DCC_LocalDebugSymbols>False</DCC_LocalDebugSymbols>
+			<DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+			<DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
+			<DCC_ObjOutput>..\tmp</DCC_ObjOutput>
+			<DCC_HppOutput>..\tmp</DCC_HppOutput>
+			<DCC_ResourcePath>D:\Develop\Bpl;D:\Develop\Lib;D:\Develop\Global;D:\Develop\Global\Database;D:\Develop\Global\FastCode;$(DCC_ResourcePath)</DCC_ResourcePath>
+			<DCC_ObjPath>D:\Develop\Bpl;D:\Develop\Lib;D:\Develop\Global;D:\Develop\Global\Database;D:\Develop\Global\FastCode;$(DCC_ObjPath)</DCC_ObjPath>
+			<DCC_IncludePath>D:\Develop\Bpl;D:\Develop\Lib;D:\Develop\Global;D:\Develop\Global\Database;D:\Develop\Global\FastCode;$(DCC_IncludePath)</DCC_IncludePath>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_2)'!=''">
+			<Version>7.0</Version>
+			<DCC_IMPLICIT_IMPORT>False</DCC_IMPLICIT_IMPORT>
+			<DCC_ObjOutput>..\tmp</DCC_ObjOutput>
+			<DCC_HppOutput>..\tmp</DCC_HppOutput>
+			<DCC_ResourcePath>..\tmp;$(DCC_ResourcePath)</DCC_ResourcePath>
+			<DCC_ObjPath>..\tmp;$(DCC_ObjPath)</DCC_ObjPath>
+			<DCC_IncludePath>..\tmp;$(DCC_IncludePath)</DCC_IncludePath>
+		</PropertyGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Delphi.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Delphi.Personality>
+					<Parameters>
+						<Parameters Name="UseLauncher">False</Parameters>
+						<Parameters Name="LoadAllSymbols">True</Parameters>
+						<Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
+					</Parameters>
+					<VersionInfo>
+						<VersionInfo Name="IncludeVerInfo">True</VersionInfo>
+						<VersionInfo Name="AutoIncBuild">True</VersionInfo>
+						<VersionInfo Name="MajorVer">1</VersionInfo>
+						<VersionInfo Name="MinorVer">1</VersionInfo>
+						<VersionInfo Name="Release">902</VersionInfo>
+						<VersionInfo Name="Build">102</VersionInfo>
+						<VersionInfo Name="Debug">False</VersionInfo>
+						<VersionInfo Name="PreRelease">False</VersionInfo>
+						<VersionInfo Name="Special">False</VersionInfo>
+						<VersionInfo Name="Private">False</VersionInfo>
+						<VersionInfo Name="DLL">False</VersionInfo>
+						<VersionInfo Name="Locale">2052</VersionInfo>
+						<VersionInfo Name="CodePage">936</VersionInfo>
+					</VersionInfo>
+					<VersionInfoKeys>
+						<VersionInfoKeys Name="CompanyName">Chris Infinity</VersionInfoKeys>
+						<VersionInfoKeys Name="FileDescription">Inspire Me</VersionInfoKeys>
+						<VersionInfoKeys Name="FileVersion">1.1.902.102</VersionInfoKeys>
+						<VersionInfoKeys Name="InternalName">Inspire Me</VersionInfoKeys>
+						<VersionInfoKeys Name="LegalCopyright">Copyright (C) Chris Infinity, 2003 - 2009</VersionInfoKeys>
+						<VersionInfoKeys Name="LegalTrademarks">Chris Infinity</VersionInfoKeys>
+						<VersionInfoKeys Name="OriginalFilename">Inspire.exe</VersionInfoKeys>
+						<VersionInfoKeys Name="ProductName">Inspire Me</VersionInfoKeys>
+						<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
+						<VersionInfoKeys Name="ProductKey">CI.Software.Inspire</VersionInfoKeys>
+						<VersionInfoKeys Name="AuthProvider">Chris</VersionInfoKeys>
+						<VersionInfoKeys Name="InternalVersion">1.0.0.0/20090201.0900</VersionInfoKeys>
+						<VersionInfoKeys Name="Comments">Inspire Me</VersionInfoKeys>
+						<VersionInfoKeys Name="CodeName">Inspire</VersionInfoKeys>
+					</VersionInfoKeys>
+					<Source>
+						<Source Name="MainSource">Inspire.dpr</Source>
+					</Source>
+				</Delphi.Personality>
+				<ModelSupport>False</ModelSupport>
+			</BorlandProject>
+			<ProjectFileVersion>12</ProjectFileVersion>
+		</ProjectExtensions>
+		<ItemGroup>
+			<DelphiCompile Include="Inspire.dpr">
+				<MainSource>MainSource</MainSource>
+			</DelphiCompile>
+			<DCCReference Include="..\src\Global.pas"/>
+			<DCCReference Include="..\src\Security.pas"/>
+			<DCCReference Include="..\src\ufmMain.pas">
+				<Form>fmMain</Form>
+			</DCCReference>
+			<DCCReference Include="..\src\udmCommon.pas">
+				<Form>dmCommon</Form>
+				<DesignClass>TDataModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="..\src\ufmSecurity.pas">
+				<Form>fmSecurity</Form>
+			</DCCReference>
+			<DCCReference Include="..\src\uBaseFrame.pas"/>
+			<DCCReference Include="..\src\ciRichViewEditorFrameUnit.pas">
+				<Form>ciRichViewEditorFrame</Form>
+				<DesignClass>TFrame</DesignClass>
+			</DCCReference>
+			<DCCReference Include="..\src\ciRichViewEditorIntf.pas"/>
+			<DCCReference Include="..\src\udmNote.pas">
+				<Form>dmNote</Form>
+				<DesignClass>TDataModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="..\src\ufmEditNote.pas">
+				<Form>fmEditNote</Form>
+			</DCCReference>
+			<DCCReference Include="..\src\ufrmNote.pas">
+				<Form>frmNote</Form>
+				<DesignClass>TFrame</DesignClass>
+			</DCCReference>
+			<DCCReference Include="..\src\ufrmTrash.pas">
+				<Form>frmTrash</Form>
+				<DesignClass>TFrame</DesignClass>
+			</DCCReference>
+			<DCCReference Include="..\src\TypeDefs.pas"/>
+			<BuildConfiguration Include="Base">
+				<Key>Base</Key>
+			</BuildConfiguration>
+			<BuildConfiguration Include="Debug">
+				<Key>Cfg_2</Key>
+				<CfgParent>Base</CfgParent>
+			</BuildConfiguration>
+			<BuildConfiguration Include="Release">
+				<Key>Cfg_1</Key>
+				<CfgParent>Base</CfgParent>
+			</BuildConfiguration>
+		</ItemGroup>
+		<Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')"/>
+		<PropertyGroup>
+			<PreBuildEvent><![CDATA[brcc32.exe ..\src\ExtraRes.rc]]></PreBuildEvent>
+		</PropertyGroup>
+	</Project>
