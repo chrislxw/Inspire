@@ -24,10 +24,4 @@ patches-*
 #
 # Other stuff
 #
-bin/*
-lib/*
-res/*
-test/*
-*.cmd
-*.ini
-
+Extra.res
