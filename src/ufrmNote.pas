@@ -182,7 +182,6 @@ begin
   NoteFrame := TfrmNote.Create(Application.MainForm);
   fmEditNote := TfmEditNote.Create(Application);
 
-  RegisterFrame(NoteFrame);
 end;
 
 procedure TfrmNote.actFileExportExecute(Sender: TObject);

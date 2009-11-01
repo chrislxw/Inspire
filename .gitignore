@@ -31,3 +31,9 @@ test/*
 *.cmd
 *.ini
 
+#
+# RAD Studio stuff
+#
+*.identcache
+*.local
+_history

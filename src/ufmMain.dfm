@@ -131,14 +131,6 @@ object fmMain: TfmMain
     Images = dmCommon.ILMain
     OnMouseDown = TitleBarMouseDown
   end
-  object FrameContainer: TPanel
-    Left = 8
-    Top = 59
-    Width = 200
-    Height = 200
-    BevelOuter = bvNone
-    TabOrder = 1
-  end
   object ProgressBar: TProgressBar
     Left = 829
     Top = 0

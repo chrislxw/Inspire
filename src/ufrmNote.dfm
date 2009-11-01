@@ -31,6 +31,8 @@ object frmNote: TfrmNote
     FixedDimension = 19
     object TabSheet1: TRzTabSheet
       Caption = #22791#24536#35270#22270
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object tvNote: TCITreeView
         Left = 0
         Top = 0
@@ -62,6 +64,8 @@ object frmNote: TfrmNote
     end
     object TabSheet2: TRzTabSheet
       Caption = #26085#35760#35270#22270
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object tvDiary: TCITreeView
         Left = 0
         Top = 0

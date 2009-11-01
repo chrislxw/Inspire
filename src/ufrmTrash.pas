@@ -57,7 +57,6 @@ uses
 procedure InitFrame;
 begin
   TrashFrame := TfrmTrash.Create(Application.MainForm);
-  RegisterFrame(TrashFrame);
 end;
 
 { TfrmTrash }

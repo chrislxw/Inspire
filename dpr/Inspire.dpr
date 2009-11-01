@@ -18,7 +18,8 @@ uses
   ufmEditNote in '..\src\ufmEditNote.pas' {fmEditNote},
   ufrmNote in '..\src\ufrmNote.pas' {frmNote: TFrame},
   ufrmTrash in '..\src\ufrmTrash.pas' {frmTrash: TFrame},
-  TypeDefs in '..\src\TypeDefs.pas';
+  TypeDefs in '..\src\TypeDefs.pas',
+  uStorage in '..\src\uStorage.pas';
 
 {$R *.res}
 

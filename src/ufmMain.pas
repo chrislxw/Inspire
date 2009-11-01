@@ -18,9 +18,9 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, ToolWin, ComCtrls, Types, GraphUtil,
-  StdCtrls, ExtCtrls, Dialogs, Menus, ActnList, Buttons, {GDIPAPI, GDIPOBJ, GDIPUtils, }Themes, UxTheme, DWMUtils,
+  StdCtrls, ExtCtrls, Dialogs, Menus, ActnList, Buttons, Themes, UxTheme, DWMUtils,
   // CI RTL
-  CICommon, CIFormUtils, CIUtils, CIExtCtrls,
+  CICommon, CIFormUtils, CIUtils, CIExtCtrls, AsyncCalls,
   // CI Components
   CIHint, CoolTrayIcon,
   // TB2k and TBX
@@ -29,7 +29,7 @@ uses
   // Other
   mbTBXComboBox, AppEvnts,
   // Frames
-  uBaseFrame, ufrmNote, ufrmTrash, 
+  uBaseFrame, ufrmNote, ufrmTrash,
   // Global Modules
   Global, udmCommon, CIButtons, StdActns;
 
@@ -81,7 +81,6 @@ type
     TrayIcon: TCoolTrayIcon;
     sbtnMin: TCIToolButton;
     sbtnClose: TCIToolButton;
-    FrameContainer: TPanel;
     lbPlaceHolder1: TLabel;
     procedure actFileCloseExecute(Sender: TObject);
     procedure actFileExitExecute(Sender: TObject);
@@ -108,17 +107,13 @@ type
     procedure TrayIconClick(Sender: TObject);
     procedure TrayIconMinimizeToTray(Sender: TObject);
   private
-    FCurFrame: TFrame;
     procedure CloseStorage;
-    procedure InitFrames;
-    procedure LoadConfig;
+    procedure LoadConfig(dummy: Integer = 0);
     procedure OpenStorage(Filename: string);
     procedure SaveConfig;
-    procedure SwitchFrame(FrameTag: Integer);
   protected
     procedure CMAppInit(var Message: TMessage); message CM_APPINIT;
     procedure CMHintTimeout(var Message: TMessage); message CM_HINTTIMEOUT;
-    procedure CMLoadConfig(var Message: TMessage); message CM_LOADCONFIG;
     procedure CreateParams(var Params: TCreateParams); override;
   public
     procedure AfterConstruction; override;
@@ -220,9 +215,6 @@ end;
 procedure TfmMain.FormCreate(Sender: TObject);
 begin
   DoubleBuffered := True;
-  FrameContainer.Align := alClient;
-
-  FCurFrame := nil;
   //dmCommon.TBXSwitcher.Theme := Config.ReadString('Global', 'VisualStyle', 'OfficeK');
 
   TrayIcon.Icon.Assign(Application.Icon);
@@ -264,11 +256,12 @@ end;
 
 procedure TfmMain.miNavItemClick(Sender: TObject);
 begin
-  SwitchFrame((Sender as TTBXItem).Tag);
+//  SwitchFrame((Sender as TTBXItem).Tag);
 end;
 
 procedure TfmMain.pbFrameTitleBarPaint(Sender: TObject);
-//var
+var
+  FCurFrame: IBaseFrame;
 //  pHeight, pCenter: Integer;
 begin
   with pbFrameTitleBar do
@@ -302,18 +295,17 @@ begin
                  tGTopBottom);
 }
     // 绘制当前窗框的标题
+    FCurFrame := NoteFrame as IBaseFrame;
     if FCurFrame <> nil then
     begin
       Canvas.Brush.Style := bsClear;
       Canvas.Font.Style := [fsBold];
-      Canvas.TextOut(53, 7, (FCurFrame as IBaseFrame).GetFrameName);
+      Canvas.TextOut(53, 7, FCurFrame.GetFrameName);
       Canvas.Font.Style := [];
-    end;
+
     // 调用当前窗框的自定义绘制
-    if FCurFrame <> nil then
-    begin
-      (FCurFrame as IBaseFrame).PaintFrameTitleBar(Canvas);
-      dmCommon.ILNav.Draw(Canvas, Width-30, 3, (FCurFrame as IBaseFrame).GetImageIndex);
+      FCurFrame.PaintFrameTitleBar(Canvas);
+      dmCommon.ILNav.Draw(Canvas, Width-30, 3, FCurFrame.GetImageIndex);
     end;
   end;
 end;
@@ -392,27 +384,13 @@ procedure TfmMain.CloseStorage;
 var
   f: TFrame;
 begin
-  for f in FrameList.Values do
-    (f as IBaseFrame).FinalizeFrame;
+  NoteFrame.FinalizeFrame;
 
   Storage.Disconnect;
   Storage := nil;
 end;
 
-procedure TfmMain.InitFrames;
-begin
-  Status0.Caption := '初始化笔记窗框...';
-  Application.ProcessMessages;
-  ufrmNote.InitFrame;
-
-  Status0.Caption := '初始化回收站窗框...';
-  Application.ProcessMessages;
-  ufrmTrash.InitFrame;
-
-  SwitchFrame(NoteFrame.Tag);
-end;
-
-procedure TfmMain.LoadConfig;
+procedure TfmMain.LoadConfig(dummy: Integer = 0);
 var
   s: string;
 begin
@@ -421,14 +399,14 @@ begin
   actStayOnTop.Checked := Config.ReadBool('Global', 'StayOnTop', False);
   actStayOnTopExecute(actStayOnTop);
 
-  Status0.Caption := '初始化窗框...';
-  InitFrames;
+  //Status0.Caption := '初始化窗框...';
+  //InitFrames;
+  ufrmNote.InitFrame;
 
   Status0.Caption := '连接存储矩阵...';
   Application.ProcessMessages;
   s := Config.ReadString('Global', 'Storage', '');
   OpenStorage(s);
-  SwitchFrame(Config.ReadInteger('Global', 'StartPage', 3));
   Status0.Caption := '';
 end;
 
@@ -444,8 +422,7 @@ begin
     Exit;
   end;
 
-  for f in FrameList.Values do
-    (f as IBaseFrame).InitializeFrame(FrameContainer);
+  NoteFrame.InitializeFrame(Self);
 end;
 
 procedure TfmMain.SaveConfig;
@@ -457,25 +434,16 @@ begin
 //  Config.WriteString('Global', 'Storage', Storage.Filename);
 end;
 
-procedure TfmMain.SwitchFrame(FrameTag: Integer);
-var
-  cnt: Integer;
-begin
-//  cnt := FrameList.Count;
-//  if (cnt=0)or(FrameTag>=cnt) then Exit;
-  if not FrameList.TryGetValue(FrameTag, FCurFrame) then Exit;
-
-  (FCurFrame as IBaseFrame).Activate;
-  pbFrameTitleBar.Repaint;
-//  pmNav.Items.Items[FrameTag].Checked := True;
-end;
-
 procedure TfmMain.CMAppInit(var Message: TMessage);
+var
+  ac: IAsyncCall;
 begin
   Invalidate;
   Application.ProcessMessages;
   Status0.Caption := '正在启动...';
-  PostMessage(Handle, CM_LOADCONFIG, 0, 0);
+  ac := AsyncCall(LoadConfig, 0);
+
+//  PostMessage(Handle, CM_LOADCONFIG, 0, 0);
   //TitleBar.Caption := 'Inspire - ' + Config.ReadString('Global', 'Caption', '');
 end;
 
@@ -487,11 +455,6 @@ begin
   Delay(Message.LParam);
   StatusPane.ImageIndex := -1;
   StatusPane.Caption := '';
-end;
-
-procedure TfmMain.CMLoadConfig(var Message: TMessage);
-begin
-  LoadConfig;
 end;
 
 procedure TfmMain.CreateParams(var Params: TCreateParams);
